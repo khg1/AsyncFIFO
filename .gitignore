@@ -1,0 +1,58 @@
+# =============================================================
+# Simulation & tool artifacts — nothing here should be committed
+# =============================================================
+
+# ---- VCS (Synopsys) ----
+simv
+simv.*
+simv_*
+*.daidir/
+csrc/
+ucli.key
+*.key
+vc_hdrs.h
+.vcs_lib_lock
+vcs_lib/
+AN.DB/
+DVEfiles/
+
+# ---- Coverage (VCS urg / regression) ----
+*.vdb
+simv.vdb/
+coverage_report/
+urgReport/
+*.cm
+
+# ---- Verdi / Verdi FSDB ----
+verdi_config_file
+verdiLog/
+vfastLog/
+novas.*
+novas_*
+*.fsdb
+nWaveLog/
+
+# ---- Xcelium (Cadence) ----
+xcelium.d/
+xrun.history
+xrun.log
+xrun.key
+.simvision/
+*.shm/
+waves.shm/
+INCA_libs/
+.bpad/
+
+# ---- Waveforms / dumps ----
+*.vpd
+*.vcd
+*.wlf
+inter.vpd
+
+# ---- Logs ----
+*.log
+
+# ---- Editor / OS ----
+*.swp
+*~
+.DS_Store
