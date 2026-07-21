@@ -15,7 +15,7 @@ logic[ADDR_WIDTH:0] wptr_binary_next, wptr_gray_next;
 assign  wptr_gray = binary_to_gray(wptr_binary);
 assign  wptr_gray_next = binary_to_gray(wptr_binary_next);
 
-always_ff @(posedge wclk or negedge wrst_n) begin
+always_ff @(posedge wclk) begin
     if(~wrst_n) wptr_binary <= '0;
     else        wptr_binary <= wptr_binary_next;
 end

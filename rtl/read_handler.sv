@@ -15,7 +15,7 @@ logic[ADDR_WIDTH:0] rptr_binary_next, rptr_gray_next;
 assign  rptr_gray = binary_to_gray(rptr_binary);
 assign  rptr_gray_next = binary_to_gray(rptr_binary_next);
 
-always_ff @(posedge rclk or negedge rrst_n) begin
+always_ff @(posedge rclk) begin
     if(~rrst_n) rptr_binary <= '0;
     else        rptr_binary <= rptr_binary_next;
 end
