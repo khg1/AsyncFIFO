@@ -16,4 +16,7 @@ module async_fifo #(
     output  logic[DATA_WIDTH-1:0]   rdata,
     output  logic   rempty
 );
+
+logic   [ADDR_WIDTH:0]  
+
 endmodule

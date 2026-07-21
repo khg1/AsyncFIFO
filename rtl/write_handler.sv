@@ -5,25 +5,25 @@ module write_handler #(
     input   logic   wclk,
     input   logic   wrst_n,
     input   logic   wr_en,
-    input   logic[ADDR_WIDTH:0] g_rptr_sync,
-    output  logic[ADDR_WIDTH:0] g_wptr,
-    output  logic[ADDR_WIDTH:0] b_wptr,
+    input   logic[ADDR_WIDTH:0] rptr_gray_sync,
+    output  logic[ADDR_WIDTH:0] wptr_gray,
+    output  logic[ADDR_WIDTH:0] wptr_binary,
     output  logic               wfull
 );
 
-logic[ADDR_WIDTH:0] b_wptr_next, g_wptr_next;
-assign  g_wptr = binary_to_gray(b_wptr);
-assign  g_wptr_next = binary_to_gray(b_wptr_next);
+logic[ADDR_WIDTH:0] wptr_binary_next, wptr_gray_next;
+assign  wptr_gray = binary_to_gray(wptr_binary);
+assign  wptr_gray_next = binary_to_gray(wptr_binary_next);
 
 always_ff @(posedge wclk or negedge wrst_n) begin
-    if(~wrst_n) b_wptr <= '0;
-    else        b_wptr <= b_wptr_next;
+    if(~wrst_n) wptr_binary <= '0;
+    else        wptr_binary <= wptr_binary_next;
 end
 
 always_comb begin
-    b_wptr_next = b_wptr;
-    wfull = (wptr_gray_next == {~g_rptr_sync[ADDR_WIDTH:ADDR_WIDTH-1], g_rptr_sync[ADDR_WIDTH-2:0]});
-    if(~wfull && wr_en)  b_wptr_next = b_wptr_next + 1;
+    wptr_binary_next = wptr_binary;
+    wfull = (wptr_gray_next == {~rptr_gray_sync[ADDR_WIDTH:ADDR_WIDTH-1], rptr_gray_sync[ADDR_WIDTH-2:0]});
+    if(~wfull && wr_en)  wptr_binary_next = wptr_binary_next + 1;
 end
 
 function logic[ADDR_WIDTH:0] binary_to_gray(logic[ADDR_WIDTH:0] b);
