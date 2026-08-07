@@ -2,12 +2,12 @@ class read_monitor#(int DATA_WIDTH = 8) extends uvm_monitor;
     `uvm_component_param_utils(read_monitor#(DATA_WIDTH))
 
     virtual read_if#(DATA_WIDTH) vif;  
-    uvm_analysis_port #(read_txn_data#(DATA_WIDTH)) read_item_collect_port;      
+    uvm_analysis_port #(read_txn_data#(DATA_WIDTH)) read_port;      
     read_txn_data#(DATA_WIDTH)  read_data_item;
 
     function new(string name = "read_monitor", uvm_component parent = null);
         super.new(name, parent);
-        read_item_collect_port = new("read_item_collect_port", this);
+        read_port = new("read_port", this);
     endfunction
 
     function void build_phase(uvm_phase phase);
@@ -23,7 +23,7 @@ class read_monitor#(int DATA_WIDTH = 8) extends uvm_monitor;
             if(accept)  begin
                 read_data_item = read_txn_data#(DATA_WIDTH)::type_id::create("read_data_item");
                 read_data_item.read_data_out = vif.read_fifo_dut.rdata;
-                read_item_collect_port.write(read_data_item);
+                read_port.write(read_data_item);
             end
             accept = vif.read_fifo_dut.rd_en && !vif.read_fifo_dut.rempty;
         end
