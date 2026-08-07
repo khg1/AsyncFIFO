@@ -9,7 +9,6 @@ module async_fifo_sva #(
     input   logic                   wfull,
     input   logic [ADDR_WIDTH:0]  wptr_binary,
     input   logic [ADDR_WIDTH:0]  wptr_gray,
-    input   logic [ADDR_WIDTH:0]  wptr_gray_sync,
     input   logic [ADDR_WIDTH:0]  wptr_gray_next,
 
     //read domain
@@ -18,7 +17,6 @@ module async_fifo_sva #(
     input   logic   rd_en,
     input  logic[DATA_WIDTH-1:0]   rdata,
     input  logic   rempty,
-    input   logic [ADDR_WIDTH:0]  rptr_binary,
     input   logic [ADDR_WIDTH:0]  rptr_gray,
     input   logic [ADDR_WIDTH:0]  rptr_gray_sync,
     input   logic [ADDR_WIDTH:0]  rptr_gray_next
