@@ -20,7 +20,7 @@ clocking write_fifo_dut @(posedge wclk)
     default input #1step output #1ns;
     input   wr_en;
     input   wdata;
-    output   wfull;
+    input   wfull;
 endclocking
 
 endinterface

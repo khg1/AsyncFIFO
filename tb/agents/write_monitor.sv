@@ -12,11 +12,11 @@ class write_monitor#(int DATA_WIDTH = 8) extends uvm_monitor;
 
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        if(!uvm_config_db#(virtual write_if#(DATA_WIDTH))::get(this, "", "write_vif", vif))
+        if(!uvm_config_db#(virtual write_if#(DATA_WIDTH))::get(this, "", "write_if", vif))
             `uvm_fatal(get_type_name(), "Failed to get the virtual interface")
     endfunction
 
-    task run_phase(uvm_phase phase);
+    virtual task run_phase(uvm_phase phase);
         super.run_phase(phase);
         forever begin
             @(vif.write_fifo_dut);

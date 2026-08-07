@@ -1,4 +1,4 @@
-class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_tx#(DATA_WIDTH));
+class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_txn#(DATA_WIDTH));
     `uvm_component_param_utils(read_driver#(DATA_WIDTH))
     virtual read_if #(DATA_WIDTH)   vif;
 
@@ -12,7 +12,7 @@ class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_tx#(DATA_WIDTH
             `uvm_fatal(get_type_name(), "error extracting vif")
     endfunction
 
-    task run_phase(uvm_phase phase);
+    virtual task run_phase(uvm_phase phase);
         read_txn#(DATA_WIDTH) req;
         forever begin
             seq_item_port.get_next_item(req);

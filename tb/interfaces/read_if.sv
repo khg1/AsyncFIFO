@@ -19,8 +19,8 @@ endclocking
 clocking read_fifo_dut @(posedge rclk)
     default input #1step output #1ns;
     input   rd_en;
-    output  rdata;
-    output  rempty;
+    input  rdata;
+    input  rempty;
 endclocking
 
 endinterface
