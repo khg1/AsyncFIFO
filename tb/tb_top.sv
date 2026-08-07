@@ -65,6 +65,6 @@ module tb_top;
     initial begin
         uvm_config_db#(virtual read_if#(DATA_WIDTH))::set(null, "*", "read_if", r_if);
         uvm_config_db#(virtual write_if#(DATA_WIDTH))::set(null, "*", "write_if", w_if);
-        run_test("base_test");
+        run_test();
     end
 endmodule
