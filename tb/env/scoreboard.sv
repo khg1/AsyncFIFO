@@ -1,5 +1,5 @@
-class scoreboard#(int DATA_WIDTH = 8, int ADDR_WIDTH = 4) extends uvm_scoreboard;
-    `uvm_component_param_utils(scoreboard#(DATA_WIDTH, ADDR_WIDTH))
+class scoreboard#(int DATA_WIDTH = 8) extends uvm_scoreboard;
+    `uvm_component_param_utils(scoreboard#(DATA_WIDTH))
     uvm_tlm_analysis_fifo #(read_txn_data#(DATA_WIDTH)) read_reqs_buff;
     uvm_tlm_analysis_fifo #(write_txn_data#(DATA_WIDTH)) write_reqs_buff;
 
