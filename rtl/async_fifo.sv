@@ -21,7 +21,7 @@ logic   [ADDR_WIDTH:0]  d_rptr_gray, q_rptr_gray, q1_rptr_gray;
 logic   [ADDR_WIDTH:0]  d_wptr_gray, q_wptr_gray, q1_wptr_gray;
 logic   [ADDR_WIDTH:0]  d_wptr_binary, d_rptr_binary;
 
-always_ff @(posedge rclk) begin
+always_ff @(posedge wclk) begin
     if(~wrst_n) begin
         q_rptr_gray <= '0;
         q1_rptr_gray <= '0;
@@ -32,8 +32,8 @@ always_ff @(posedge rclk) begin
     end
 end
 
-always_ff @(posedge wclk) begin
-    if(~wrst_n) begin
+always_ff @(posedge rclk) begin
+    if(~rrst_n) begin
         q_wptr_gray <= '0;
         q1_wptr_gray <= '0;
     end
