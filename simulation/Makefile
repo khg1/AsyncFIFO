@@ -14,12 +14,12 @@ TIMESCALE = -timescale=1ns/1ps
 TEST_NAME = base_test
 
 compile:
-    @echo "Compiling with VCS"
-    	$(VCS_CMD) $(UVM_FLAGS) $(DEBUG_FLAGS) $(TIMESCALE) \
-    	$(RTL_FILES) $(PKG_FILES) $(SVA_FILES) $(TB_TOP) \
-    	-l compile.log
+@echo "Compiling with VCS"
+$(VCS_CMD) $(UVM_FLAGS) $(DEBUG_FLAGS) $(TIMESCALE) \
+$(RTL_FILES) $(PKG_FILES) $(SVA_FILES) $(TB_TOP) \
+-l compile.log
 
 run:
-    @echo "Running simulation"
-    	./simv +UVM_TESTNAME=$(TEST_NAME) +UVM_VERBOSITY=UVM_LOW \
-    	-l sim.log +fsdb+autoflush
+@echo "Running simulation"
+./simv +UVM_TESTNAME=$(TEST_NAME) +UVM_VERBOSITY=UVM_LOW \
+-l sim.log +fsdb+autoflush
