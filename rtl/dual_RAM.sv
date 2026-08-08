@@ -12,7 +12,8 @@ module dual_RAM #(
     //domain read
     input   logic   rclk,
     input   logic   rd_en,
-    input   logic[DATA_WIDTH-1:0]   rdata,
+    output  logic[DATA_WIDTH-1:0]   rdata,
+    input   logic   rempty,
     input   logic[ADDR_WIDTH:0]   rptr_binary
 );
 
@@ -24,6 +25,6 @@ end
 
 always_ff @(posedge rclk) begin
     rdata <= '0;
-    if(rd_en && ~rempty)    rdata <= ram[rptr_binary[ADDR__WIDTH-2:0]];    
+    if(rd_en && ~rempty)    rdata <= ram[rptr_binary[ADDR_WIDTH-2:0]];    
 end
 endmodule

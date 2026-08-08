@@ -51,12 +51,12 @@ endproperty
 
 property write_reset_flags;
     @(posedge wclk)
-        !wrst_n |=-> (wptr_gray == 0 && wfull == 0);
+        !wrst_n |=> (wptr_gray == 0 && wfull == 0);
 endproperty
 
 property read_reset_flags;
     @(posedge rclk)
-        !rrst_n |=-> (rptr_gray == 0 && rempty == 1);
+        !rrst_n |=> (rptr_gray == 0 && rempty == 1);
 endproperty
 
 property write_occupancy_bound;

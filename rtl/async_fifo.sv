@@ -52,6 +52,7 @@ dual_RAM #(.DATA_WIDTH(DATA_WIDTH), .ADDR_WIDTH(ADDR_WIDTH))  inst_dual_ram (
     .rclk(rclk),
     .rd_en(rd_en),
     .rdata(rdata),
+    .rempty(rempty),
     .rptr_binary(d_rptr_binary)
 );
 

@@ -1,19 +1,19 @@
 class fifo_virtual_seq #(int DATA_WIDTH = 8) extends uvm_sequence;
     `uvm_object_param_utils(fifo_virtual_seq #(DATA_WIDTH))
-    read_seq #(DATA_WIDTH)  read_sequence;
-    write_seq #(DATA_WIDTH) write_sequence;
+    read_seq  read_sequence;
+    write_seq#(DATA_WIDTH) write_sequence;
 
-    read_sequencer #(DATA_WIDTH)  read_seqr;
+    read_sequencer  read_seqr;
     write_sequencer #(DATA_WIDTH) write_seqr;
 
-    `uvm_declare_p_sequencer(fifo_sequencer #(DATA_WIDTH));
+    `uvm_declare_p_sequencer(fifo_sequencer #(DATA_WIDTH))
 
     function new(string name = "fifo_virtual_seq");
         super.new(name);
     endfunction
 
     task body();
-        read_sequence = read_seq #(DATA_WIDTH)::type_id::create("read_sequence");
+        read_sequence = read_seq::type_id::create("read_sequence");
         write_sequence = write_seq #(DATA_WIDTH)::type_id::create("write_sequence");
 
         read_sequence.start(p_sequencer.read_seqr);

@@ -5,9 +5,9 @@ class write_txn #(int DATA_WIDTH = 8) extends uvm_sequence_item;
     rand bit                    do_write;
     rand logic[DATA_WIDTH-1:0]  wdata;
 
-    constraint timing { pre_delay < 4 };
+    constraint timing { pre_delay < 4; }
 
-    function void new(string name = "write_txn");
+    function new(string name = "write_txn");
         super.new(name);
     endfunction
 endclass

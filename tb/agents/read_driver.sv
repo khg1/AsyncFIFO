@@ -1,4 +1,4 @@
-class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_txn#(DATA_WIDTH));
+class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_txn);
     `uvm_component_param_utils(read_driver#(DATA_WIDTH))
     virtual read_if #(DATA_WIDTH)   vif;
 
@@ -13,7 +13,7 @@ class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_txn#(DATA_WIDT
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        read_txn#(DATA_WIDTH) req;
+        read_txn req;
         forever begin
             seq_item_port.get_next_item(req);
             vif.read_driver.rd_en <= 1'b0;
