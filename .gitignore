@@ -49,7 +49,7 @@ INCA_libs/
 *.wlf
 inter.vpd
 *.inter*
-*inter*
+*inter.*
 *.vcs*
 # ---- Logs ----
 *.log
