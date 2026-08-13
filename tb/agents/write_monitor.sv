@@ -23,6 +23,7 @@ class write_monitor#(int DATA_WIDTH = 8) extends uvm_monitor;
             if(vif.write_fifo_dut.wr_en && !vif.write_fifo_dut.wfull) begin
                 write_data_item = write_txn_data#(DATA_WIDTH)::type_id::create("write_data_item");
                 write_data_item.write_data_in = vif.write_fifo_dut.wdata;
+                `uvm_info(get_type_name(), $sformatf("monitored writing of data:%0h to the FIFO", vif.write_fifo_dut.wdata), UVM_LOW)
                 write_port.write(write_data_item);
             end
         end

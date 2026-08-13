@@ -23,6 +23,7 @@ class read_monitor#(int DATA_WIDTH = 8) extends uvm_monitor;
             if(accept)  begin
                 read_data_item = read_txn_data#(DATA_WIDTH)::type_id::create("read_data_item");
                 read_data_item.read_data_out = vif.read_fifo_dut.rdata;
+                `uvm_info(get_type_name(), $sformatf("monitored reading of data:%0h from the FIFO", vif.read_fifo_dut.rdata), UVM_LOW)
                 read_port.write(read_data_item);
             end
             accept = vif.read_fifo_dut.rd_en && !vif.read_fifo_dut.rempty;
