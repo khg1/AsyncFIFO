@@ -14,6 +14,9 @@ class read_driver #(int DATA_WIDTH = 8) extends uvm_driver #(read_txn);
 
     virtual task run_phase(uvm_phase phase);
         read_txn req;
+        vif.read_driver.rd_en <= 1'b0;
+        do @(vif.read_driver);
+        while (!vif.read_driver.rrst_n);
         forever begin
             seq_item_port.get_next_item(req);
             vif.read_driver.rd_en <= 1'b0;
