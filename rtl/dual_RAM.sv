@@ -20,11 +20,11 @@ module dual_RAM #(
 logic[DATA_WIDTH-1:0]   ram [0:(1'b1 << ADDR_WIDTH)-1];
 
 always_ff @(posedge wclk) begin
-    if(wr_en && ~wfull) ram[wptr_binary[ADDR_WIDTH-2:0]] <= wdata;
+    if(wr_en && ~wfull) ram[wptr_binary[ADDR_WIDTH-1:0]] <= wdata;
 end
 
 always_ff @(posedge rclk) begin
     rdata <= '0;
-    if(rd_en && ~rempty)    rdata <= ram[rptr_binary[ADDR_WIDTH-2:0]];    
+    if(rd_en && ~rempty)    rdata <= ram[rptr_binary[ADDR_WIDTH-1:0]];    
 end
 endmodule
