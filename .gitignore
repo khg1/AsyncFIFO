@@ -48,7 +48,9 @@ INCA_libs/
 *.vcd
 *.wlf
 inter.vpd
-
+*.inter*
+*inter*
+*.vcs*
 # ---- Logs ----
 *.log
 

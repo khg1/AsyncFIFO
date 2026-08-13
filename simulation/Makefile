@@ -15,6 +15,8 @@ TIMESCALE = -timescale=1ns/1ps
 
 TEST_NAME = base_test
 
+all: clean compile run
+
 compile:
 	@echo "Compiling with VCS"
 	$(VCS_CMD) $(UVM_FLAGS) $(DEBUG_FLAGS) $(TIMESCALE) \
@@ -27,4 +29,7 @@ run:
 	./simv +UVM_TESTNAME=$(TEST_NAME) +UVM_VERBOSITY=UVM_LOW \
 		-l sim.log +fsdb+autoflush
 clean:
-	rm -rf *.daidir *.log verdi_config_file
+	rm -rf *.daidir *.log verdi_config_file *.h *.key simv csrc *.fsdb *.rc *.conf verdiLog
+
+verdi:
+	verdi -ssf waves.fsdb &
