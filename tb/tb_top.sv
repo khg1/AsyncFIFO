@@ -17,13 +17,15 @@ module tb_top;
 
     initial begin
         wrst_n = 0;
-        repeat(3) @(posedge wclk);
+        repeat(4) @(posedge wclk);
+        @(negedge wclk);
         wrst_n = 1;
     end
 
     initial begin
         rrst_n = 0;
         repeat(4) @(posedge rclk);
+        @(negedge rclk);
         rrst_n = 1;
     end
 
@@ -66,5 +68,10 @@ module tb_top;
         uvm_config_db#(virtual read_if#(DATA_WIDTH))::set(null, "*", "read_if", r_if);
         uvm_config_db#(virtual write_if#(DATA_WIDTH))::set(null, "*", "write_if", w_if);
         run_test();
+    end
+
+    initial begin
+        $fsdbDumpfile("waves.fsdb");
+        $fsdbDumpvars(0, tb_top, "+mda");
     end
 endmodule
