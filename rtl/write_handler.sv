@@ -21,9 +21,10 @@ always_ff @(posedge wclk) begin
 end
 
 always_comb begin
-    wptr_binary_next = wptr_binary;
-    wfull = (wptr_gray_next == {~rptr_gray_sync[ADDR_WIDTH:ADDR_WIDTH-1], rptr_gray_sync[ADDR_WIDTH-2:0]});
-    if(~wfull && wr_en)  wptr_binary_next = wptr_binary_next + 1;
+    if(~wrst_n) wfull = 0;
+    else        wfull = (wptr_gray_next == {~rptr_gray_sync[ADDR_WIDTH:ADDR_WIDTH-1], rptr_gray_sync[ADDR_WIDTH-2:0]});
+    if(~wfull && wr_en) wptr_binary_next = wptr_binary + 1;
+    else                wptr_binary_next = wptr_binary;
 end
 
 function logic[ADDR_WIDTH:0] binary_to_gray(logic[ADDR_WIDTH:0] b);

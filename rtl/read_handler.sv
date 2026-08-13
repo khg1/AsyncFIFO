@@ -21,9 +21,10 @@ always_ff @(posedge rclk) begin
 end
 
 always_comb begin
-    rptr_binary_next = rptr_binary;
-    rempty = (rptr_gray == wptr_gray_sync);
-    if(~rempty && rd_en)    rptr_binary_next = rptr_binary_next + 1;
+    if(~rrst_n) rempty = 1;
+    else        rempty = (rptr_gray == wptr_gray_sync);
+    if(~rempty && rd_en)    rptr_binary_next = rptr_binary + 1;
+    else                    rptr_binary_next = rptr_binary;
 end
 
 function logic[ADDR_WIDTH:0] binary_to_gray(logic[ADDR_WIDTH:0] b);
