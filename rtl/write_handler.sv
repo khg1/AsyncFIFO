@@ -16,15 +16,14 @@ assign  wptr_gray = binary_to_gray(wptr_binary);
 assign  wptr_gray_next = binary_to_gray(wptr_binary_next);
 
 always_ff @(posedge wclk) begin
-    if(~wrst_n) wptr_binary <= '0;
-    else        wptr_binary <= wptr_binary_next;
+    if(~wrst_n)                     wptr_binary <= '0;
+    else                            wptr_binary <= wptr_binary_next;
 end
 
 always_comb begin
     if(~wrst_n) wfull = 0;
-    else        wfull = (wptr_gray_next == {~rptr_gray_sync[ADDR_WIDTH:ADDR_WIDTH-1], rptr_gray_sync[ADDR_WIDTH-2:0]});
-    if(~wfull && wr_en) wptr_binary_next = wptr_binary + 1;
-    else                wptr_binary_next = wptr_binary;
+    else        wfull = (wptr_gray == {~rptr_gray_sync[ADDR_WIDTH:ADDR_WIDTH-1], rptr_gray_sync[ADDR_WIDTH-2:0]});
+    wptr_binary_next = wptr_binary + (wr_en && ~wfull);
 end
 
 function logic[ADDR_WIDTH:0] binary_to_gray(logic[ADDR_WIDTH:0] b);
