@@ -22,6 +22,7 @@ simv.vdb/
 coverage_report/
 urgReport/
 *.cm
+.fsm.*
 
 # ---- Verdi / Verdi FSDB ----
 verdi_config_file
