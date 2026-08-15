@@ -7,10 +7,13 @@ package fifo_pkg;
     `include "../tb/seq/write_txn.sv"
     `include "../tb/seq/read_seq.sv"
     `include "../tb/seq/write_seq.sv"
+    `include "../tb/seq/occ_write_seq.sv"
+    `include "../tb/seq/occ_read_seq.sv"
     `include "../tb/agents/read_sequencer.sv"
     `include "../tb/agents/write_sequencer.sv"
     `include "../tb/env/fifo_sequencer.sv"
     `include "../tb/seq/fifo_virtual_seq.sv"
+    `include "../tb/seq/occ_virtual_seq.sv"
     `include "../tb/env/scoreboard.sv"
     `include "../tb/agents/read_driver.sv"
     `include "../tb/agents/read_monitor.sv"
@@ -18,6 +21,9 @@ package fifo_pkg;
     `include "../tb/agents/write_monitor.sv"
     `include "../tb/agents/write_agent.sv"
     `include "../tb/agents/read_agent.sv"
+    `include "../tb/env/coverage.sv"
     `include "../tb/env/env.sv"
     `include "../tb/test/base_test.sv"
+    `include "../tb/test/occupancy_test.sv"
+    
 endpackage

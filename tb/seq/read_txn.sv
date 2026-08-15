@@ -3,7 +3,7 @@ class read_txn extends uvm_sequence_item;
 
     rand int unsigned pre_delay;
     rand bit          do_read;
-
+    bit               was_empty;
     constraint timing { pre_delay < 4; }
 
     function new(string name = "read_txn");

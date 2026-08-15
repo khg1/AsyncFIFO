@@ -4,7 +4,7 @@ class write_txn #(int DATA_WIDTH = 8) extends uvm_sequence_item;
     rand int unsigned           pre_delay;
     rand bit                    do_write;
     rand logic[DATA_WIDTH-1:0]  wdata;
-
+    bit                         was_full;
     constraint timing { pre_delay < 4; }
 
     function new(string name = "write_txn");
