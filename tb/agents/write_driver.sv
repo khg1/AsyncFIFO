@@ -2,10 +2,12 @@ class write_driver #(int DATA_WIDTH = 8) extends uvm_driver #(write_txn#(DATA_WI
     `uvm_component_param_utils(write_driver #(DATA_WIDTH))
 
     virtual write_if #(DATA_WIDTH) vif;
+    uvm_analysis_port#(write_txn#(DATA_WIDTH)) write_control_port;
     int num_write;
 
     function new(string name = "write_driver", uvm_component parent = null);
         super.new(name, parent);
+        write_control_port = new("write_control_port", this);
     endfunction
 
     virtual function void build_phase(uvm_phase phase);
@@ -27,10 +29,13 @@ class write_driver #(int DATA_WIDTH = 8) extends uvm_driver #(write_txn#(DATA_WI
                 num_write += 1;
                 vif.write_driver.wr_en <= 1'b1;
                 vif.write_driver.wdata <= req.wdata;
-                do @(vif.write_driver);
-                while(vif.write_driver.wfull);
+                do begin
+                 @(vif.write_driver);
+                 if(vif.write_driver.wfull) req.was_full=1;
+                end while(vif.write_driver.wfull);
                 vif.write_driver.wr_en <= 1'b0;
             end
+            write_control_port.write(req);
             seq_item_port.item_done();
         end
     endtask
