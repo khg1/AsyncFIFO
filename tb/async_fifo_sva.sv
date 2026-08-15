@@ -22,7 +22,9 @@ module async_fifo_sva #(
     input   logic [ADDR_WIDTH:0]  rptr_gray_next
 );
 
-localparam int DEPTH = 1 <<ADDR_WIDTH;
+localparam logic[ADDR_WIDTH:0] DEPTH = (1 << ADDR_WIDTH);
+logic [ADDR_WIDTH:0] w_occupancy;
+assign w_occupancy = wptr_binary - gray2binary(rptr_gray_sync);
 
 property w_gray_bit_change;
     @(posedge wclk) disable iff (!wrst_n)
@@ -41,7 +43,7 @@ endproperty
 
 property no_overflow;
     @(posedge wclk) disable iff (!wrst_n)
-        wfull |-> (wptr_gray_next == wptr_gray);
+        wfull |=> $stable(wptr_gray);
 endproperty
 
 property no_underflow;
@@ -61,7 +63,7 @@ endproperty
 
 property write_occupancy_bound;
     @(posedge wclk) disable iff (!wrst_n)
-        (wptr_binary - gray2binary(rptr_gray_sync)) inside {[0:DEPTH]};
+        w_occupancy inside {[0:DEPTH]};
 endproperty
 
 a_w_gray_bit_change: assert property(w_gray_bit_change) else $error("wgray ptr change >1 bit");
@@ -71,9 +73,11 @@ a_no_overflow: assert property(no_overflow) else $error("wptr incremented despit
 a_no_underflow: assert property(no_underflow) else $error("rptr incremented despite rempty");
 a_write_reset_flags: assert property(write_reset_flags) else $error("improper write reset flags observed");
 a_read_reset_flags: assert property(read_reset_flags) else $error("improper read reset flags observed");
-a_write_occupancy_bound: assert property(write_occupancy_bound) else $error("wrap bit error detected");
+a_write_occupancy_bound: assert property(write_occupancy_bound) 
+    else $error("wrap bit error: wptr_binary=%0h rptr_gray_sync=%0h computed_occupancy=%0d", 
+                wptr_binary, rptr_gray_sync, (wptr_binary - gray2binary($sampled(rptr_gray_sync))));
 
-function logic[ADDR_WIDTH:0] gray2binary(logic [ADDR_WIDTH:0] g);
+function automatic logic[ADDR_WIDTH:0] gray2binary(logic [ADDR_WIDTH:0] g);
     for(int i = 0; i<=ADDR_WIDTH; i++)   gray2binary[i] = ^(g >> i);
 endfunction
 endmodule

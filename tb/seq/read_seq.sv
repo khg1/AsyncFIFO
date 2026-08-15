@@ -11,12 +11,12 @@ class read_seq extends uvm_sequence #(read_txn);
     endfunction
 
     task body();
-        assert(this.randomize());
+        a_read_seq_ok: assert(this.randomize());
         for(int i = 0; i<num_txn; i++) begin
             `uvm_info(get_type_name(), $sformatf("[iteration:%0d/%0d] Inside Body of read_seq", i, num_txn), UVM_LOW)   
             req = read_txn::type_id::create("req");
             wait_for_grant();
-            assert(req.randomize());
+            a_read_item_ok: assert(req.randomize());
             `uvm_info(get_type_name(), "Trying to get the key for read", UVM_DEBUG)
             if(req.do_read) begin
                 bit got_credit = 0;
