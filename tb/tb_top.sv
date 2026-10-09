@@ -5,14 +5,20 @@ module tb_top;
     logic wclk, rclk, wrst_n, rrst_n;
     localparam int DATA_WIDTH = 8;
     localparam int ADDR_WIDTH = 4;
+
+    localparam real WCLK_HALF   = 0.25;
+    localparam real RCLK_HALF   = 0.5065;
+    localparam real RCLK_OFFSET = 0.137;
+
     initial begin
         wclk = 0;
-        forever #5 wclk = ~wclk;
+        forever #WCLK_HALF wclk = ~wclk;
     end
 
     initial begin
         rclk = 0;
-        forever #6 rclk = ~rclk;
+        #RCLK_OFFSET;
+        forever #RCLK_HALF rclk = ~rclk;
     end
 
     initial begin
@@ -32,56 +38,74 @@ module tb_top;
     read_if#(DATA_WIDTH) r_if (.rclk(rclk), .rrst_n(rrst_n));
     write_if#(DATA_WIDTH) w_if (.wclk(wclk), .wrst_n(wrst_n));
 
-    async_fifo#(DATA_WIDTH, ADDR_WIDTH) DUT (
-        .wclk(wclk),
-        .wrst_n(wrst_n),
-        .wr_en(w_if.wr_en),
-        .write_data(w_if.wdata),
-        .wfull(w_if.wfull),
-        .rclk(rclk),
-        .rrst_n(rrst_n),
-        .rd_en(r_if.rd_en),
-        .rdata(r_if.rdata),
-        .rempty(r_if.rempty)
-    );
+    `ifndef GLS
+        async_fifo#(DATA_WIDTH, ADDR_WIDTH) DUT (
+            .wclk(wclk),
+            .wrst_n(wrst_n),
+            .wr_en(w_if.wr_en),
+            .write_data(w_if.wdata),
+            .wfull(w_if.wfull),
+            .rclk(rclk),
+            .rrst_n(rrst_n),
+            .rd_en(r_if.rd_en),
+            .rdata(r_if.rdata),
+            .rempty(r_if.rempty)
+        );
+    `else
+        async_fifo_DATA_WIDTH8_ADDR_WIDTH4 DUT (
+            .wclk(wclk),
+            .wrst_n(wrst_n),
+            .wr_en(w_if.wr_en),
+            .write_data(w_if.wdata),
+            .wfull(w_if.wfull),
+            .rclk(rclk),
+            .rrst_n(rrst_n),
+            .rd_en(r_if.rd_en),
+            .rdata(r_if.rdata),
+            .rempty(r_if.rempty)
+        );
+    `endif
+    
 
-    bind async_fifo async_fifo_sva#(DATA_WIDTH,ADDR_WIDTH) sva_inst(
-        .wclk(wclk),
-        .wrst_n(wrst_n),
-        .wr_en(wr_en),
-        .write_data(write_data),
-        .wfull(wfull),
-        .rclk(rclk),
-        .rrst_n(rrst_n),
-        .rd_en(rd_en),
-        .rdata(rdata),
-        .rempty(rempty),
-        .wptr_binary(inst_write_handler.wptr_binary),
-        .wptr_gray(inst_write_handler.wptr_gray),
-        .wptr_gray_next(inst_write_handler.wptr_gray_next),
-        .rptr_gray(inst_read_handler.rptr_gray),
-        .rptr_gray_next(inst_read_handler.rptr_gray_next),
-        .rptr_gray_sync(inst_write_handler.rptr_gray_sync)
-    );
+    `ifndef GLS
+        bind async_fifo async_fifo_sva#(DATA_WIDTH,ADDR_WIDTH) sva_inst(
+            .wclk(wclk),
+            .wrst_n(wrst_n),
+            .wr_en(wr_en),
+            .write_data(write_data),
+            .wfull(wfull),
+            .rclk(rclk),
+            .rrst_n(rrst_n),
+            .rd_en(rd_en),
+            .rdata(rdata),
+            .rempty(rempty),
+            .wptr_binary(inst_write_handler.wptr_binary),
+            .wptr_gray(inst_write_handler.wptr_gray),
+            .wptr_gray_next(inst_write_handler.wptr_gray_next),
+            .rptr_gray(inst_read_handler.rptr_gray),
+            .rptr_gray_next(inst_read_handler.rptr_gray_next),
+            .rptr_gray_sync(inst_write_handler.rptr_gray_sync)
+        );
 
-    bind async_fifo async_fifo_cov#(DATA_WIDTH,ADDR_WIDTH) cov_inst(
-        .wclk(wclk),
-        .wrst_n(wrst_n),
-        .wr_en(wr_en),
-        .write_data(write_data),
-        .wfull(wfull),
-        .rclk(rclk),
-        .rrst_n(rrst_n),
-        .rd_en(rd_en),
-        .rdata(rdata),
-        .rempty(rempty),
-        .wptr_binary(inst_write_handler.wptr_binary),
-        .wptr_gray(inst_write_handler.wptr_gray),
-        .wptr_gray_next(inst_write_handler.wptr_gray_next),
-        .rptr_gray(inst_read_handler.rptr_gray),
-        .rptr_gray_next(inst_read_handler.rptr_gray_next),
-        .rptr_gray_sync(inst_write_handler.rptr_gray_sync)
-    );
+        bind async_fifo async_fifo_cov#(DATA_WIDTH,ADDR_WIDTH) cov_inst(
+            .wclk(wclk),
+            .wrst_n(wrst_n),
+            .wr_en(wr_en),
+            .write_data(write_data),
+            .wfull(wfull),
+            .rclk(rclk),
+            .rrst_n(rrst_n),
+            .rd_en(rd_en),
+            .rdata(rdata),
+            .rempty(rempty),
+            .wptr_binary(inst_write_handler.wptr_binary),
+            .wptr_gray(inst_write_handler.wptr_gray),
+            .wptr_gray_next(inst_write_handler.wptr_gray_next),
+            .rptr_gray(inst_read_handler.rptr_gray),
+            .rptr_gray_next(inst_read_handler.rptr_gray_next),
+            .rptr_gray_sync(inst_write_handler.rptr_gray_sync)
+        );
+    `endif
 
     initial begin
         uvm_config_db#(virtual read_if#(DATA_WIDTH))::set(null, "*", "read_if", r_if);
