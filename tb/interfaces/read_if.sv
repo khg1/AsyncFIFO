@@ -10,7 +10,7 @@ logic[DATA_WIDTH-1:0]   rdata;
 logic                   rempty;
 
 clocking read_driver @(posedge rclk);
-    default input #1step output #1ns;
+    default input #1step output #0.3ns;
     input   rrst_n;
     input   rempty;
     input   rdata;
@@ -18,7 +18,7 @@ clocking read_driver @(posedge rclk);
 endclocking
 
 clocking read_fifo_dut @(posedge rclk);
-    default input #1step output #1ns;
+    default input #1step output #0.3ns;
     input   rrst_n;
     input   rd_en;
     input  rdata;

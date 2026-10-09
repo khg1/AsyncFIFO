@@ -10,7 +10,7 @@ logic[DATA_WIDTH-1:0]   wdata;
 logic                   wfull;
 
 clocking write_driver @(posedge wclk);
-    default input #1step output #1ns;
+    default input #1step output #0.15ns;
     input   wrst_n;
     input   wfull;
     output  wr_en;
@@ -18,7 +18,7 @@ clocking write_driver @(posedge wclk);
 endclocking
 
 clocking write_fifo_dut @(posedge wclk);
-    default input #1step output #1ns;
+    default input #1step output #0.15ns;
     input   wrst_n;
     input   wr_en;
     input   wdata;
